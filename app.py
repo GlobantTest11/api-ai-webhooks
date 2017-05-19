@@ -49,10 +49,10 @@ def processRequest(req):
     print(req_query)
     if req_query is None:
         return {}
-    req_query = baseurl + urlencode(req_query)
-    print("req_query 2")
-    print(req_query)
-    result = urlopen(req_query).read()
+    req_query_final = baseurl + req_query
+    print("req_query_final")
+    print(req_query_final)
+    result = urlopen(urlencode(req_query_final)).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
     return res
@@ -65,14 +65,7 @@ def makeYqlQuery(req):
     radius = "1000"
     apiKey = "AIzaSyCZ8V7Jb7KwHGXMwNRb27U3Lf_nk5Wpc0c"
     forType = "restaurant"
-
-    print(json.dumps(result, indent=4))
-    print(parameters)
-    print(location)
-    print(radius)
-    print(apiKey)
     url = "location=" + location + "&radius=" + radius + "&type=" + forType + "&key=" + apiKey
-    print(url)
     return url
 
 
