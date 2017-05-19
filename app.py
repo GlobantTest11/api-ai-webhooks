@@ -40,6 +40,8 @@ def webhook():
 
 
 def processRequest(req):
+    return req
+
     if req.get("result").get("action") != "showRestoForLocation":
         return {}
     baseurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
