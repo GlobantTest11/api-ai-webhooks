@@ -71,16 +71,16 @@ def makeYqlQuery(req):
     print(location)
     print(radius)
     print(apiKey)
-    return "location=" + location + "&radius=" + radius + "&type=" + forType + "&key=" + apiKey
+    url = "location=" + location + "&radius=" + radius + "&type=" + forType + "&key=" + apiKey
+    print(url)
+    return url
 
 
 def makeWebhookResult(data):
-    print(data)
-    query = data.get('query')
-    if query is None:
-        return {}
+    print("makeWebhookResult")
 
-    result = query.get('results')
+    result = data.get('results')
+    return result
     if result is None:
         return {}
 
