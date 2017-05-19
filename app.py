@@ -65,7 +65,6 @@ def makeWebhookResult(data):
     result = data.get('results')
     item = result[0]
 
-    print(json.load(result))
     print(json.dumps(result, indent=4))
 
     if item is None:
