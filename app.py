@@ -27,9 +27,6 @@ app = Flask(__name__)
 def webhook():
     req = request.get_json(silent=True, force=True)
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
-
     res = processRequest(req)
 
     res = json.dumps(res, indent=4)
@@ -47,8 +44,6 @@ def processRequest(req):
     if req_query is None:
         return {}
     req_query_final = baseurl + req_query
-    print(req_query_final)
-    req_query_final = urlencode(req_query_final)
     result = urlopen(req_query_final).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
@@ -70,9 +65,9 @@ def makeWebhookResult(data):
     result = data.get('results')
     item = result[0]
 
-    arrayItems = json.dumps(result, indent=4)
-    print(arrayItems)
-    
+    print(json.load(result))
+    print(json.dumps(result, indent=4))
+
     if item is None:
         return {}
 
@@ -80,7 +75,6 @@ def makeWebhookResult(data):
 
     return {
         "speech": speech,
-        "displayText": speech,
         # "data": arrayItems,
         # "contextOut": [],
         "source": "apiai-resto-webhook-sample"
