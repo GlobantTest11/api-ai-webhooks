@@ -43,25 +43,34 @@ def processRequest(req):
     if req.get("result").get("action") != "showRestoForLocation":
         return {}
     baseurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-    yql_query = makeYqlQuery(req)
-    print(yql_query)
-    if yql_query is None:
+    req_query = makeYqlQuery(req)
+
+    print("req_query 1")
+    print(req_query)
+    if req_query is None:
         return {}
-    yql_url = baseurl + urlencode({'q': yql_query})
-    result = urlopen(yql_url).read()
+    req_query = baseurl + urlencode(req_query)
+    print("req_query 2")
+    print(req_query)
+    result = urlopen(req_query).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
     return res
 
 
 def makeYqlQuery(req):
-    print(req)
     result = req.get("result")
     parameters = result.get("parameters")
     location = result.get("location")
-    radius = 1000
+    radius = "1000"
     apiKey = "AIzaSyCZ8V7Jb7KwHGXMwNRb27U3Lf_nk5Wpc0c"
     forType = "restaurant"
+
+    print(json.dumps(result, indent=4))
+    print(parameters)
+    print(location)
+    print(radius)
+    print(apiKey)
     return "location=" + location + "&radius=" + radius + "&type=" + forType + "&key=" + apiKey
 
 
