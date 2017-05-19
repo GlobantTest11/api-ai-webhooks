@@ -54,8 +54,7 @@ def processRequest(req):
     print(req_query_final)
     result = urlopen(req_query_final).read()
     data = json.loads(result)
-    print(json.dumps(result, indent=2))
-
+    print(data)
     res = makeWebhookResult(data)
     return res
 
@@ -75,28 +74,10 @@ def makeWebhookResult(data):
     print("makeWebhookResult")
 
     result = data.get('results')
-    return result
-    if result is None:
-        return {}
 
-    channel = result.get('channel')
-    if channel is None:
-        return {}
+    item = result[0]
 
-    item = channel.get('item')
-    location = channel.get('location')
-    units = channel.get('units')
-    if (location is None) or (item is None) or (units is None):
-        return {}
-
-    condition = item.get('condition')
-    if condition is None:
-        return {}
-
-    # print(json.dumps(item, indent=4))
-
-    speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
-             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+    speech = "Near by resto name is " + item.get('name')
 
     print("Response:")
     print(speech)
@@ -106,9 +87,8 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
+        "source": "apiai-resto-webhook-sample"
     }
-
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
