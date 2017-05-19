@@ -65,16 +65,14 @@ def makeWebhookResult(data):
     result = data.get('results')
     item = result[0]
 
-    print(json.dumps(result, indent=4))
-
     if item is None:
         return {}
 
     speech = "Near by resto name is " + item.get('name')
-
+    arrayItems = json.dump(result, indent=4)
     return {
         "speech": speech,
-        # "data": arrayItems,
+        "data": arrayItems,
         # "contextOut": [],
         "source": "apiai-resto-webhook-sample"
     }
