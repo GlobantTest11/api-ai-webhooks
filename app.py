@@ -69,12 +69,16 @@ def makeYqlQuery(req):
 def makeWebhookResult(data):
     result = data.get('results')
     item = result[0]
+
+    if item is None:
+        return {}
+
     speech = "Near by resto name is " + item.get('name')
     arrayItems = json.dumps(result)
     print(arrayItems)
+
     return {
         "speech": speech,
-        "sesults": result,
         "displayText": speech,
         # "data": arrayItems,
         # "contextOut": [],
