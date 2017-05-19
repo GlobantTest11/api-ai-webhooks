@@ -44,14 +44,11 @@ def processRequest(req):
         return {}
     baseurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     req_query = makeYqlQuery(req)
-
-    print("req_query 1")
-    print(req_query)
     if req_query is None:
         return {}
     req_query_final = baseurl + req_query
-    print("req_query_final")
     print(req_query_final)
+    req_query_final = urlencode(req_query_final)
     result = urlopen(req_query_final).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
@@ -62,7 +59,7 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     location = parameters.get("location")
-    radius = "400"
+    radius = "300"
     apiKey = "AIzaSyCZ8V7Jb7KwHGXMwNRb27U3Lf_nk5Wpc0c"
     forType = "restaurant"
     url = "location=" + location + "&radius=" + radius + "&type=" + forType + "&key=" + apiKey
@@ -73,14 +70,23 @@ def makeWebhookResult(data):
     result = data.get('results')
     item = result[0]
     speech = "Near by resto name is " + item.get('name')
+
     return {
         "speech": speech,
         "sesults": result,
         "displayText": speech,
-        # "data": data,
+        "data": json.dumps(result, indent=4),
         # "contextOut": [],
         "source": "apiai-resto-webhook-sample"
     }
+
+def processRestoArray(data):
+    restoArray = []
+    for resto in result:
+        restoArray.append(resto)
+
+    return restoArray + "]"
+
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
