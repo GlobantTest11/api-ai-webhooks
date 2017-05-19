@@ -40,7 +40,7 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
+    if req.get("result").get("action") != "showRestoForLocation":
         return {}
     baseurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     yql_query = makeYqlQuery(req)
@@ -67,7 +67,7 @@ def makeYqlQuery(req):
 
 
 def makeWebhookResult(data):
-    print(data)
+    return data
     query = data.get('query')
     if query is None:
         return {}
