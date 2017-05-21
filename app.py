@@ -64,15 +64,15 @@ def makeWebhookResult(data):
     arrayItems = json.dumps(results, indent=0)
 
     count = len(results)
-    if count > 0:
+    if len(results) > 0:
         speech = "We found " + count + " restaurant near by you"
     else:
         speech = "Sorry, there is no good restaurant near by you"
+
     print(speech)
     return {
         "speech": speech,
         "data": arrayItems,
-        "count": count,
         "source": "apiai-resto-webhook-sample"
     }
 
