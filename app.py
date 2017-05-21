@@ -65,9 +65,8 @@ def makeWebhookResult(data):
     results = data.get('results')
     arrayItems = json.dumps(results, indent=0)
 
-    count = len(results)
     if len(results) > 0:
-        speech = "We found " + count + " restaurant near by you"
+        speech = "We found few restaurant near by you"
     else:
         speech = "Sorry, there is no good restaurant near by you"
 
