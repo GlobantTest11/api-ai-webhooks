@@ -42,7 +42,7 @@ def processRequest(req):
     baseurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     req_query = makeYqlQuery(req)
     if req_query is None:
-        return return {
+        return {
             "speech": "Unable to create query",
             "source": "apiai-resto-webhook"
         }
