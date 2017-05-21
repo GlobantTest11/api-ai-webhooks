@@ -69,11 +69,11 @@ def makeWebhookResult(data):
     else:
         speech = "Sorry, there is no good restaurant near by you"
 
-    return {
+    return [{
         "speech": speech,
         "data": results,
         "source": "apiai-resto-webhook-sample"
-    }
+    }]
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
