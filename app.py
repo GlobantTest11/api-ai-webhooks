@@ -27,7 +27,9 @@ app = Flask(__name__)
 def webhook():
     req = request.get_json(silent=True, force=True)
     res = processRequest(req)
+    print(res)
     res = json.dumps(res, indent=4)
+    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -69,7 +71,6 @@ def makeWebhookResult(data):
     else:
         speech = "Sorry, there is no good restaurant near by you"
 
-    print(speech)
     return {
         "speech": speech,
         "data": arrayItems,
