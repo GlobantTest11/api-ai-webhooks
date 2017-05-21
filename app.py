@@ -28,9 +28,11 @@ def webhook():
     req = request.get_json(silent=True, force=True)
 
     res = processRequest(req)
-
+    print("Response 1")
+    print(res)
     res = json.dumps(res, indent=4)
-    # print(res)
+    print("Response 2")
+    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -38,12 +40,14 @@ def webhook():
 
 def processRequest(req):
     if req.get("result").get("action") != "showRestoForLocation":
-        return req
+        return {}
     baseurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     req_query = makeYqlQuery(req)
     if req_query is None:
-        return req
+        return {}
     req_query_final = baseurl + req_query
+    print("Request Query")
+    print(req_query_final)
     result = urlopen(req_query_final).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
@@ -74,7 +78,6 @@ def makeWebhookResult(data):
     return {
         "speech": speech,
         "data": arrayItems,
-        "contextOut": result,
         "source": "apiai-resto-webhook-sample"
     }
 
