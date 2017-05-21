@@ -63,7 +63,6 @@ def makeYqlQuery(req):
 
 def makeWebhookResult(data):
     results = data.get('results')
-    arrayItems = json.dumps(results, indent=0)
 
     if len(results) > 0:
         speech = "We found few restaurant near by you"
@@ -72,7 +71,7 @@ def makeWebhookResult(data):
 
     return {
         "speech": speech,
-        "data": arrayItems,
+        "data": results,
         "source": "apiai-resto-webhook-sample"
     }
 
