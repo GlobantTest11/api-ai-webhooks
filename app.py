@@ -27,9 +27,7 @@ app = Flask(__name__)
 def webhook():
     req = request.get_json(silent=True, force=True)
     res = processRequest(req)
-    print(res)
     res = json.dumps(res, indent=4)
-    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -37,11 +35,17 @@ def webhook():
 
 def processRequest(req):
     if req.get("result").get("action") != "showRestoForLocation":
-        return {}
+        return {
+            "speech": "ActionNotMatched",
+            "source": "apiai-resto-webhook"
+        }
     baseurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     req_query = makeYqlQuery(req)
     if req_query is None:
-        return {}
+        return return {
+            "speech": "Unable to create query",
+            "source": "apiai-resto-webhook"
+        }
     req_query_final = baseurl + req_query
     print(req_query_final)
     result = urlopen(req_query_final).read()
@@ -54,6 +58,11 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     location = parameters.get("location")
+    if location is None:
+        return {
+            "speech": "location should be present in parameters",
+            "source": "apiai-resto-webhook"
+        }
     radius = "150"
     apiKey = "AIzaSyCZ8V7Jb7KwHGXMwNRb27U3Lf_nk5Wpc0c"
     forType = "restaurant"
@@ -69,11 +78,11 @@ def makeWebhookResult(data):
     else:
         speech = "Sorry, there is no good restaurant near by you"
 
-    return [{
+    return {
         "speech": speech,
         "data": results,
-        "source": "apiai-resto-webhook-sample"
-    }]
+        "source": "apiai-resto-webhook"
+    }
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
