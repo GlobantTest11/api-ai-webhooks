@@ -26,12 +26,8 @@ app = Flask(__name__)
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
-
     res = processRequest(req)
-    print("Response 1")
-    print(res)
     res = json.dumps(res, indent=4)
-    print("Response 2")
     print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
@@ -46,14 +42,8 @@ def processRequest(req):
     if req_query is None:
         return {}
     req_query_final = baseurl + req_query
-    print("Request Query")
-    print(req_query_final)
     result = urlopen(req_query_final).read()
-    print("result response")
-    print(result)
-    print("result data")
     data = json.loads(result)
-    print(result)
     res = makeWebhookResult(data)
     return res
 
@@ -71,18 +61,8 @@ def makeYqlQuery(req):
 
 def makeWebhookResult(data):
     results = data.get('results')
-
-    arrayItems = json.dumps(results, indent=4)
-    print("arrayItems")
-    print(arrayItems)
-
-    item = results[0]
-
-    speech = "Near by resto name is " + item.get('name')
-    print(speech)
-
+    arrayItems = json.dumps(results, indent=0)
     return {
-        "speech": speech,
         "data": arrayItems,
         "source": "apiai-resto-webhook-sample"
     }
