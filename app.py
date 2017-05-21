@@ -68,6 +68,7 @@ def makeWebhookResult(data):
         speech = "We found " + count + " restaurant near by you"
     else:
         speech = "Sorry, there is no good restaurant near by you"
+    print(speech)
     return {
         "speech": speech,
         "data": arrayItems,
