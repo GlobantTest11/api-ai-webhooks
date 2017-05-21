@@ -28,7 +28,6 @@ def webhook():
     req = request.get_json(silent=True, force=True)
     res = processRequest(req)
     res = json.dumps(res, indent=4)
-    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -42,6 +41,7 @@ def processRequest(req):
     if req_query is None:
         return {}
     req_query_final = baseurl + req_query
+    print(req_query_final)
     result = urlopen(req_query_final).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
@@ -63,13 +63,15 @@ def makeWebhookResult(data):
     results = data.get('results')
     arrayItems = json.dumps(results, indent=0)
 
-    if len(results) > 0:
-        speech = "We found few nice restaurant for you"
+    count = len(results)
+    if count > 0:
+        speech = "We found " + count + " restaurant near by you"
     else:
         speech = "Sorry, there is no good restaurant near by you"
     return {
-        "speech" : speech,
+        "speech": speech,
         "data": arrayItems,
+        "count": count,
         "source": "apiai-resto-webhook-sample"
     }
 
