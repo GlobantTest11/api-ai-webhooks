@@ -58,7 +58,7 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     location = parameters.get("location")
-    radius = "300"
+    radius = "150"
     apiKey = "AIzaSyCZ8V7Jb7KwHGXMwNRb27U3Lf_nk5Wpc0c"
     forType = "restaurant"
     url = "location=" + location + "&radius=" + radius + "&type=" + forType + "&key=" + apiKey
@@ -66,15 +66,20 @@ def makeYqlQuery(req):
 
 
 def makeWebhookResult(data):
-    result = data.get('results')
-    item = result[0]
+    results = data.get('results')
+
+    arrayItems = json.dump(results)
+    print("arrayItems")
+    print(arrayItems)
+
+    item = results[0]
 
     if item is None:
         return {}
 
     speech = "Near by resto name is " + item.get('name')
-    arrayItems = json.dump(result)
-    print(arrayItems)
+    print(speech)
+
     return {
         "speech": speech,
         "data": arrayItems,
