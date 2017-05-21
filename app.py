@@ -38,11 +38,11 @@ def webhook():
 
 def processRequest(req):
     if req.get("result").get("action") != "showRestoForLocation":
-        return {}
+        return req
     baseurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     req_query = makeYqlQuery(req)
     if req_query is None:
-        return {}
+        return req
     req_query_final = baseurl + req_query
     result = urlopen(req_query_final).read()
     data = json.loads(result)
@@ -70,6 +70,7 @@ def makeWebhookResult(data):
 
     speech = "Near by resto name is " + item.get('name')
     arrayItems = json.dump(result)
+    print(arrayItems)
     return {
         "speech": speech,
         "data": arrayItems,
