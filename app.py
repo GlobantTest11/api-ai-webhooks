@@ -49,7 +49,11 @@ def processRequest(req):
     print("Request Query")
     print(req_query_final)
     result = urlopen(req_query_final).read()
+    print("result response")
+    print(result)
+    print("result data")
     data = json.loads(result)
+    print(result)
     res = makeWebhookResult(data)
     return res
 
@@ -68,14 +72,11 @@ def makeYqlQuery(req):
 def makeWebhookResult(data):
     results = data.get('results')
 
-    arrayItems = json.dump(results)
+    arrayItems = json.dumps(results, indent=4)
     print("arrayItems")
     print(arrayItems)
 
     item = results[0]
-
-    if item is None:
-        return {}
 
     speech = "Near by resto name is " + item.get('name')
     print(speech)
