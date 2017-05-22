@@ -66,7 +66,11 @@ def makeYqlQuery(req):
     radius = "150"
     apiKey = "AIzaSyCZ8V7Jb7KwHGXMwNRb27U3Lf_nk5Wpc0c"
     forType = "restaurant"
-    url = "location=" + location + "&radius=" + radius + "&type=" + forType + "&key=" + apiKey
+    url = "location=" + location
+    url = url + "&radius=" + radius
+    url = url + "&type=" + forType
+    url = url + "&key=" + apiKey
+    url = url + "&keywork=food"
     return url
 
 
