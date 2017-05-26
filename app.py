@@ -84,8 +84,8 @@ def makeWebhookResult(data):
 
     return {
         "speech": speech,
-        "messages": results,
         "type": 100,
+        "results": results,
         "source": "apiai-resto-webhook"
     }
 
