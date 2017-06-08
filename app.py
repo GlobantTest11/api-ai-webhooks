@@ -63,7 +63,7 @@ def makeYqlQuery(req):
             "speech": "location should be present in parameters",
             "source": "apiai-resto-webhook"
         }
-    radius = "500"
+    radius = "2000"
     apiKey = "AIzaSyCZ8V7Jb7KwHGXMwNRb27U3Lf_nk5Wpc0c"
     forType = "restaurant"
     url = "location=" + location
